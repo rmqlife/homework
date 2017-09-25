@@ -15,22 +15,20 @@ vec2 set_vec2(double x1,double x2){
 }
 
 vec2 add_vec2(vec2 v1,vec2 v2){
-	vec2 result = set_vec2(v1.x+v2.x,v1.y+v2.y);
-	return result;
+	return set_vec2(v1.x+v2.x,v1.y+v2.y);
 }
 
 vec2 minus_vec2(vec2 v){
-	vec2 result = set_vec2(-v.x,-v.y);
-	return result;
+	return set_vec2(-v.x,-v.y);
 }
 
 vec2 times_vec2(double a, vec2 v){
-	vec2 result = set_vec2(v.x*a, v.y*a);
-	return result;
+	return set_vec2(v.x*a, v.y*a);
 }
 
 int print_vec2(vec2 v){
 	printf("(%f, %f)",v.x,v.y);
+	return 0;
 }
 
 double length_vec2(vec2 v){
@@ -84,7 +82,7 @@ int main(){
 	b[0] = set_body(1,-0.97000436,0.24308753,-0.46620368,-0.43236573);
 	b[1] = set_body(1,0.97000436,-0.24308753,-0.46620368,-0.43236573);
 	b[2] = set_body(1,0,0,0.93240737,0.86473146);
-	double DeltaT = 1e-06;
+	double DeltaT = 1e-03;
 	double G = 1;
 	
 	for (int j=0;j<body_num;j++){
@@ -94,8 +92,17 @@ int main(){
 		printf(" mass: %f", b[j].m);
 		printf("\n");
 	}
+
+	vec2 momentum = set_vec2(0,0);
+	// check momentum
+	for (int j=0;j<body_num;j++){
+		momentum = add_vec2(momentum, times_vec2(b[j].m , b[j].vel));
+	}
+	printf("Initial momentum: "); print_vec2(momentum);
+	printf("\n");
+
 	
-    for (int i=0;i<1000000;i++){
+    for (int i=0;i<10000;i++){
 		clock_t begin = clock();
 		
 		/* clear accs */
@@ -108,7 +115,7 @@ int main(){
 				if (j == k)
 					continue;
 				// not sure the order!!!!
-				vec2 r = add_vec2(b[j].pos, minus_vec2(b[k].pos));
+				vec2 r = add_vec2(b[k].pos, minus_vec2(b[j].pos));
 				//print_vec2(r);
 				double r_length = length_vec2(r);
 				if (r_length<0.000001)
@@ -129,15 +136,20 @@ int main(){
 		/*print each velocities*/
 		for (int j=0;j<body_num;j++){
 			printf("b %i: ",j);
-			printf(" vel: "); print_vec2(b[j].vel);
 			printf(" pos: "); print_vec2(b[j].pos);
+			printf(" vel: "); print_vec2(b[j].vel);
 			printf("\n");
 		}
 		
 		clock_t end = clock();
 		double time_spent = (double)(end - begin);
 	    //printf("time spent %f\n", time_spent);
-
 	}
+
+	// check momentum
+	for (int j=0;j<body_num;j++)
+		momentum = add_vec2(momentum, times_vec2(b[j].m , b[j].vel));
+	printf("Final momentum: "); print_vec2(momentum);
+	printf("\n");
     return 0;
 }
