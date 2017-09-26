@@ -1,47 +1,20 @@
 
-array=(10 100 1000)
+array=("-O0" "-O1" "-O2" "-O3" "-Os")
 
-echo "none"
-gcc pa1.c -o pa1 -lm -std=c99 
+echo "method1"
 for i in "${array[@]}"
 do
-	./pa1 $i 4
+	gcc pa1_1.c -o pa1 -lm -std=c99 $i -fopenmp
+	./pa1 1000 4
 done
 
-echo "-O0"
-gcc pa1.c -o pa1 -lm -O0 -std=c99
+echo "method2"
 for i in "${array[@]}"
 do
-	./pa1 $i 4
+	gcc pa1_2.c -o pa1 -lm -std=c99 $i -fopenmp
+	./pa1 1000 4
 done
 
-echo "-O1"
-gcc pa1.c -o pa1 -lm -O1 -std=c99
-for i in "${array[@]}"
-do
-	./pa1 $i 4
-done
-
-echo "-O2"
-gcc pa1.c -o pa1 -lm -O2 -std=c99
-for i in "${array[@]}"
-do
-	./pa1 $i 4
-done
-
-echo "-O3"
-gcc pa1.c -o pa1 -lm -O3 -std=c99
-for i in "${array[@]}"
-do
-	./pa1 $i 4
-done
-
-echo "-Os"
-gcc pa1.c -o pa1 -lm -Os -std=c99
-for i in "${array[@]}"
-do
-	./pa1 $i 4
-done
 
 
 
