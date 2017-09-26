@@ -2,7 +2,7 @@
 #include <stdlib.h> 
 #include <time.h>
 #include <math.h>
-
+#include <omp.h>
 typedef struct{
 	double x;
 	double y;
@@ -84,13 +84,13 @@ double rand2()
 }
 
 int main(int argc, char *argv[]){
-	if(argc<=1) {
+	if(argc<=2) {
         printf("You did not feed me arguments, I will die now :( ...");
         exit(1);
      } 
 
-	int body_num = atoi(argv[1]);;
-	int K_times = 4;
+	int body_num = atoi(argv[1]);
+	int K_times = atoi(argv[2]);
 	body b[body_num];
 	int show_fag = 0;
 	for (int j=0;j<body_num;j++){
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]){
 		printf("\n");
 	}
 	// count seconds
-	clock_t begin = clock();
+	double begin = omp_get_wtime( );  
 
 	
     for (int i=0;i<K_times;i++){
@@ -164,8 +164,9 @@ int main(int argc, char *argv[]){
 	    //printf("time spent %f\n", time_spent);
 	}
 	// count seconds
-	clock_t end = clock();
-	double time_spent = (double)(end - begin)/CLOCKS_PER_SEC;
+    double end = omp_get_wtime();  
+
+	double time_spent = (double)(end - begin);
 	double performance =(double) body_num*body_num*K_times/1e06/time_spent;
 	printf("%i %lf %lf\n", body_num, time_spent, performance);
 
