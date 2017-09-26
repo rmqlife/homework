@@ -1,5 +1,5 @@
 
-array=(10 20 40)
+array=(10 100 1000)
 
 echo "none"
 gcc pa1.c -o pa1 -lm
