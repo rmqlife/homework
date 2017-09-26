@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h> 
 #include <time.h>
 #include <math.h>
 
@@ -77,38 +76,23 @@ nbref sequential all-pairs n-body, n = 3, nts = 6325914, G = 1, DeltaT =
 	Relative error = 1.85246e-13
 */
 
-
-double rand2()
-{
-    return (double)rand() / (double)RAND_MAX ;
-}
-
-int main(int argc, char *argv[]){
-	if(argc<=1) {
-        printf("You did not feed me arguments, I will die now :( ...");
-        exit(1);
-     } 
-
-	int body_num = atoi(argv[1]);;
-	int K_times = 4;
-	body b[body_num];
-	int show_fag = 0;
-	for (int j=0;j<body_num;j++){
-		b[j] = set_body(rand2(),rand2(),rand2(),rand2(),rand2());
-	}
-
-
+int main(){
+	body b[3];
+	int body_num = sizeof(b)/sizeof(b[0]);
+	b[0] = set_body(1,-0.97000436,0.24308753,-0.46620368,-0.43236573);
+	b[1] = set_body(1,0.97000436,-0.24308753,-0.46620368,-0.43236573);
+	b[2] = set_body(1,0,0,0.93240737,0.86473146);
 	double DeltaT = 1e-03;
 	double G = 1;
-	if (show_fag){
-		for (int j=0;j<body_num;j++){
-			printf("b %i: ",j);
-			printf(" vel: "); print_vec2(b[j].vel);
-			printf(" pos: "); print_vec2(b[j].pos);
-			printf(" mass: %f", b[j].m);
-			printf("\n");
-		}
+	
+	for (int j=0;j<body_num;j++){
+		printf("b %i: ",j);
+		printf(" vel: "); print_vec2(b[j].vel);
+		printf(" pos: "); print_vec2(b[j].pos);
+		printf(" mass: %f", b[j].m);
+		printf("\n");
 	}
+
 	vec2 momentum = set_vec2(0,0);
 	// check momentum
 	for (int j=0;j<body_num;j++){
@@ -117,11 +101,9 @@ int main(int argc, char *argv[]){
 	printf("Initial momentum: "); print_vec2(momentum);
 	printf("\n");
 
-	// count seconds
-	clock_t begin = clock();
-
 	
-    for (int i=0;i<K_times;i++){
+    for (int i=0;i<10000;i++){
+		clock_t begin = clock();
 		
 		/* clear accs */
 		for (int j=0;j<body_num;j++)
@@ -149,26 +131,21 @@ int main(int argc, char *argv[]){
 			b[j].pos = add_vec2(b[j].pos, times_vec2(DeltaT, b[j].vel));
 		}
 		
-		if (show_fag){
-			printf("time %f \n",(double) i*DeltaT); 
-			/*print each velocities*/
-			for (int j=0;j<body_num;j++){
-				printf("b %i: ",j);
-				printf(" pos: "); print_vec2(b[j].pos);
-				printf(" vel: "); print_vec2(b[j].vel);
-				printf("\n");
-			}
+		
+		printf("time %f \n",(double) i*DeltaT); 
+		/*print each velocities*/
+		for (int j=0;j<body_num;j++){
+			printf("b %i: ",j);
+			printf(" pos: "); print_vec2(b[j].pos);
+			printf(" vel: "); print_vec2(b[j].vel);
+			printf("\n");
 		}
 		
+		clock_t end = clock();
+		double time_spent = (double)(end - begin);
 	    //printf("time spent %f\n", time_spent);
 	}
-	// count seconds
-	clock_t end = clock();
-	double time_spent = (double)(end - begin)/CLOCKS_PER_SEC;
-	double performance =(double) body_num*body_num*K_times/1e06/time_spent;
-	printf("Time: %lf\nPerformance: %lf\n", time_spent, performance);
 
-	momentum = set_vec2(0,0);
 	// check momentum
 	for (int j=0;j<body_num;j++)
 		momentum = add_vec2(momentum, times_vec2(b[j].m , b[j].vel));
