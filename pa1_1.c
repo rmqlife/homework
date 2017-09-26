@@ -120,7 +120,6 @@ int main(int argc, char *argv[]){
 		printf("\n");
 	}
 	// count seconds
-	clock_t begin = clock();
 	double begin = omp_get_wtime();
 
 	
