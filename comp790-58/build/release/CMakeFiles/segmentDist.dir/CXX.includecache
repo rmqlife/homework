@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/biao/work/homework/comp790-58/segmentDist.cpp
+iostream
+-
+stdio.h
+-
+math.h
+-
+vector
+-
+tinyxml.h
+/home/biao/work/homework/comp790-58/tinyxml.h
+

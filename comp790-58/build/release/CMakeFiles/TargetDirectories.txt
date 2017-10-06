@@ -1,0 +1,14 @@
+/home/biao/work/homework/comp790-58/build/release/CMakeFiles/rebuild_cache.dir
+/home/biao/work/homework/comp790-58/build/release/CMakeFiles/install.dir
+/home/biao/work/homework/comp790-58/build/release/CMakeFiles/list_install_components.dir
+/home/biao/work/homework/comp790-58/build/release/CMakeFiles/segmentDist.dir
+/home/biao/work/homework/comp790-58/build/release/CMakeFiles/install/local.dir
+/home/biao/work/homework/comp790-58/build/release/CMakeFiles/install/strip.dir
+/home/biao/work/homework/comp790-58/build/release/CMakeFiles/edit_cache.dir
+/home/biao/work/homework/comp790-58/build/release/tinyxml/CMakeFiles/install.dir
+/home/biao/work/homework/comp790-58/build/release/tinyxml/CMakeFiles/list_install_components.dir
+/home/biao/work/homework/comp790-58/build/release/tinyxml/CMakeFiles/rebuild_cache.dir
+/home/biao/work/homework/comp790-58/build/release/tinyxml/CMakeFiles/tinyxml.dir
+/home/biao/work/homework/comp790-58/build/release/tinyxml/CMakeFiles/install/strip.dir
+/home/biao/work/homework/comp790-58/build/release/tinyxml/CMakeFiles/install/local.dir
+/home/biao/work/homework/comp790-58/build/release/tinyxml/CMakeFiles/edit_cache.dir
