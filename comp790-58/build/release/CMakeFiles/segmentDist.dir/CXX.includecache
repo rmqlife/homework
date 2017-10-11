@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/biao/work/homework/comp790-58/segmentDist.cpp
+/home/biao/work/homework/comp790-58/archive/segmentDist.cpp
 iostream
 -
 stdio.h
@@ -16,5 +16,5 @@ math.h
 vector
 -
 tinyxml.h
-/home/biao/work/homework/comp790-58/tinyxml.h
+/home/biao/work/homework/comp790-58/archive/tinyxml.h
 

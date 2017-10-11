@@ -32,7 +32,7 @@ public:
 	 *	@param		y		The y-value of the vector.
 	 */
 	Vector2( float x=0.f, float y=0.f ): _x(x), _y(y) {}
-
+748070
 	/*!
 	 *	@brief		Vector2 difference.
 	 *
@@ -109,7 +109,7 @@ public:
 
 	/*!
 	 *	@brief		The y-coordinate of the vector.
-	 */
+	 */748070
 	float	_y;
 };
 
@@ -222,7 +222,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 		} else {
 			// There is overlap - distance is distance between lines
 			Vector2 test = q0 + qDir * t0;
-			return ( test - p0 ).magnitude();
+			return ( test - p0 ).magnitude();748070
 		}
 	} else {
 		/// Test for intersection
@@ -275,7 +275,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 		// Now test for projections of endpoints onto segments
 		Vector2 s;
 		float t = qDir * ( p0 - q0 );
-		if ( t >= 0 && t <= qLen ) {
+		if ( t >= 0 && t <= qLen ) {748070
 			s = q0 + t * qDir;
 			dist = ( p0 - s ).magnitude();
 			closestDist = dist < closestDist ? dist : closestDist;
@@ -291,7 +291,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 			s = p0 + t * pDir;
 			dist = ( q0 - s ).magnitude();
 			closestDist = dist < closestDist ? dist : closestDist;
-		}
+		}parseObstacle
 		t = pDir * ( q1 - p0 );
 		if ( t >= 0 && t <= pLen ) {
 			s = p0 + t * pDir;
@@ -334,7 +334,7 @@ bool parseObstacle( TiXmlElement * node ) {
 	bool valid = true;
 	
 	for ( TiXmlElement * vert = node->FirstChildElement(); vert; vert = vert->NextSiblingElement() ) {
-		if ( vert->ValueStr() == "Vertex") {
+		if ( vert->ValueStr() == "Vertex") {748070
 			float p_x = 0;
 			float p_y = 0;
 			if ( vert->Attribute( "p_x", &dVal) ) {
@@ -386,13 +386,13 @@ bool parseObstacle( TiXmlElement * node ) {
  *	@param		xmlName		The name of the xml file to parse.
  *	@returns	True if parsing was successful, false otherwise.
  */
-bool parseXML( const std::string & xmlName ) {
+bool parseXML(const std::string & xmlName ) {
 	std::cout << "Loading from xml: " << xmlName << "\n";
 	TiXmlDocument xml( xmlName );
 	bool loadOkay = xml.LoadFile();
 
 	// Make sure that the xml was well-formed
-	if ( !loadOkay ) {	// load xml file
+	if ( !loadOkay ) {	// load xml file748070
 		std::cerr << "Could not load simulation xml " << xmlName << ".\n";
 		return false;
 	}
@@ -455,9 +455,8 @@ int main() {
 	std::cout << "\n\n";
 	const float PI = 3.1415975f;
 	const float RAD_TO_DEG = 180.f / PI;
-	const int SAMPLES = 20;
+	const int SAMPLES = 1;
 	const float D_THETA = 2.f * PI / SAMPLES;
-	std::cout << "Testing segment minDistance\n";
 	// Case 1
 	{
 		std::cout << "\tCase 1: seg1 end point (p1) nearest seg2\n";
@@ -465,121 +464,9 @@ int main() {
 		Segment seg2( Vector2( 3.f, 0.f ), Vector2( 1.f, 4.f ) );
 		for ( int i = 0; i <= SAMPLES; ++i ) {
 			float angle = i * D_THETA;
-			Segment s1 = rotate( seg1, angle );
-			Segment s2 = rotate( seg2, angle );
-			float dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << "\n";
-			dist = minDistance( s2, s1 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (reversed)\n";
-			s1.flip();
-			dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (flipped)\n";
-		}
-	}
-	// Case 2
-	{
-		std::cout << "\tCase 2: seg1 end point (p1) nearest seg2 end point (p0)\n";
-		Segment seg1( Vector2( -1.f, -1.1f ), Vector2(1.f, 0.9f ) );
-		Segment seg2( Vector2( 1.5f, 1.5f ), Vector2( 1.f, 4.f ) );
-		for ( int i = 0; i <= SAMPLES; ++i ) {
-			float angle = i * D_THETA;
-			Segment s1 = rotate( seg1, angle );
-			Segment s2 = rotate( seg2, angle );
-			float dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << "\n";
-			dist = minDistance( s2, s1 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (reversed)\n";
-			s1.flip();
-			dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (flipped)\n";
-		}
-	}
-	// Case 3
-	{
-		std::cout << "\tCase 3: seg1 intersects seg2\n";
-		Segment seg1( Vector2( -1.f, -1.1f ), Vector2(1.f, 0.9f ) );
-		Segment seg2( Vector2( 3.f, 0.f ), Vector2( 0.f, 1.f ) );
-		for ( int i = 0; i <= SAMPLES; ++i ) {
-			float angle = i * D_THETA;
-			Segment s1 = rotate( seg1, angle );
-			Segment s2 = rotate( seg2, angle );
-			float dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << "\n";
-			dist = minDistance( s2, s1 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (reversed)\n";
-			s1.flip();
-			dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (flipped)\n";
 		}
 	}
 
-	// Case 4
-	{
-		std::cout << "\tCase 4: seg1 parallel to seg2\n";
-		Segment seg1( Vector2( -1.f, -1.1f ), Vector2(1.f, 0.9f ) );
-		Segment seg2( Vector2( 0.f, -1.1f ), Vector2( 2.f, 0.9f ) );
-		for ( int i = 0; i <= SAMPLES; ++i ) {
-			float angle = i * D_THETA;
-			Segment s1 = rotate( seg1, angle );
-			Segment s2 = rotate( seg2, angle );
-			float dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << "\n";
-			dist = minDistance( s2, s1 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (reversed)\n";
-			s1.flip();
-			dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (flipped)\n";
-		}
-	}
-	// Case 5 - perpendicular intersecting
-	{
-		std::cout << "\tCase 4: seg1 intersects seg2 perpendicularly\n";
-		Segment seg1( Vector2( -1.f, -1.1f ), Vector2(1.f, 0.9f ) );
-		Segment seg2( Vector2( -1.f, 1.1f ), Vector2( 1.f, -0.9f ) );
-		for ( int i = 0; i <= SAMPLES; ++i ) {
-			float angle = i * D_THETA;
-			Segment s1 = rotate( seg1, angle );
-			Segment s2 = rotate( seg2, angle );
-			float dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << "\n";
-			dist = minDistance( s2, s1 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (reversed)\n";
-			s1.flip();
-			dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (flipped)\n";
-		}
-	}
-	// Case 6 - perpendicular non-intersecting
-	{
-		std::cout << "\tCase 4: seg1 perpendicular to seg2 - not intersecting\n";
-		Segment seg1( Vector2( -1.f, -1.1f ), Vector2(1.f, 0.9f ) );
-		Segment seg2( Vector2( -3.f, 3.1f ), Vector2( -1.f, 1.1f ) );
-		for ( int i = 0; i <= SAMPLES; ++i ) {
-			float angle = i * D_THETA;
-			Segment s1 = rotate( seg1, angle );
-			Segment s2 = rotate( seg2, angle );
-			float dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << "\n";
-			dist = minDistance( s2, s1 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (reversed)\n";
-			s1.flip();
-			dist = minDistance( s1, s2 );
-			std::cout << "\t\tAngle " << ( angle * RAD_TO_DEG ) << " degrees, minDistance: " << dist << " (flipped)\n";
-		}
-	}
-
-	// Case 7 - random
-	{
-		std::cout << "\tCase 5: Supposedly fails case\n";
-		Vector2 l0p0 = Vector2(7.748070, 14.112640);
-		Vector2 l0p1 = Vector2(7.804100, 13.633259);
-		Vector2 l1p0 = Vector2(-6.298551, -7.976461);
-		Vector2 l1p1 = Vector2(-6.615342, -8.471450);
-		Segment seg1(l0p0, l0p1);
-		Segment seg2(l1p0, l1p1);
-		float dist = minDistance(seg1, seg2);
-		std::cout << "minDistance: " << dist << "\n";
-	}
 
 	system("pause");
 

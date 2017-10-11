@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/segmentDist.dir/segmentDist.cpp.o"
+  "CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o"
   "../../Exe/segmentDist.pdb"
   "../../Exe/segmentDist"
 )

@@ -57,38 +57,38 @@ include CMakeFiles/segmentDist.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/segmentDist.dir/flags.make
 
-CMakeFiles/segmentDist.dir/segmentDist.cpp.o: CMakeFiles/segmentDist.dir/flags.make
-CMakeFiles/segmentDist.dir/segmentDist.cpp.o: ../../segmentDist.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/biao/work/homework/comp790-58/build/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/segmentDist.dir/segmentDist.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/segmentDist.dir/segmentDist.cpp.o -c /home/biao/work/homework/comp790-58/segmentDist.cpp
+CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o: CMakeFiles/segmentDist.dir/flags.make
+CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o: ../../archive/segmentDist.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/biao/work/homework/comp790-58/build/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o -c /home/biao/work/homework/comp790-58/archive/segmentDist.cpp
 
-CMakeFiles/segmentDist.dir/segmentDist.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/segmentDist.dir/segmentDist.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/biao/work/homework/comp790-58/segmentDist.cpp > CMakeFiles/segmentDist.dir/segmentDist.cpp.i
+CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/biao/work/homework/comp790-58/archive/segmentDist.cpp > CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.i
 
-CMakeFiles/segmentDist.dir/segmentDist.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/segmentDist.dir/segmentDist.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/biao/work/homework/comp790-58/segmentDist.cpp -o CMakeFiles/segmentDist.dir/segmentDist.cpp.s
+CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/biao/work/homework/comp790-58/archive/segmentDist.cpp -o CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.s
 
-CMakeFiles/segmentDist.dir/segmentDist.cpp.o.requires:
+CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.requires:
 
-.PHONY : CMakeFiles/segmentDist.dir/segmentDist.cpp.o.requires
+.PHONY : CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.requires
 
-CMakeFiles/segmentDist.dir/segmentDist.cpp.o.provides: CMakeFiles/segmentDist.dir/segmentDist.cpp.o.requires
-	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/segmentDist.cpp.o.provides.build
-.PHONY : CMakeFiles/segmentDist.dir/segmentDist.cpp.o.provides
+CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.provides: CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.requires
+	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.provides.build
+.PHONY : CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.provides
 
-CMakeFiles/segmentDist.dir/segmentDist.cpp.o.provides.build: CMakeFiles/segmentDist.dir/segmentDist.cpp.o
+CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.provides.build: CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o
 
 
 # Object files for target segmentDist
 segmentDist_OBJECTS = \
-"CMakeFiles/segmentDist.dir/segmentDist.cpp.o"
+"CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o"
 
 # External object files for target segmentDist
 segmentDist_EXTERNAL_OBJECTS =
 
-../../Exe/segmentDist: CMakeFiles/segmentDist.dir/segmentDist.cpp.o
+../../Exe/segmentDist: CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o
 ../../Exe/segmentDist: CMakeFiles/segmentDist.dir/build.make
 ../../Exe/segmentDist: lib/libtinyxml.a
 ../../Exe/segmentDist: CMakeFiles/segmentDist.dir/link.txt
@@ -100,7 +100,7 @@ CMakeFiles/segmentDist.dir/build: ../../Exe/segmentDist
 
 .PHONY : CMakeFiles/segmentDist.dir/build
 
-CMakeFiles/segmentDist.dir/requires: CMakeFiles/segmentDist.dir/segmentDist.cpp.o.requires
+CMakeFiles/segmentDist.dir/requires: CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o.requires
 
 .PHONY : CMakeFiles/segmentDist.dir/requires
 
