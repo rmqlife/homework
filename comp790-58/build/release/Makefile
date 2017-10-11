@@ -180,32 +180,32 @@ tinyxml/fast:
 	$(MAKE) -f tinyxml/CMakeFiles/tinyxml.dir/build.make tinyxml/CMakeFiles/tinyxml.dir/build
 .PHONY : tinyxml/fast
 
-archive/segmentDist.o: archive/segmentDist.cpp.o
+segmentDist.o: segmentDist.cpp.o
 
-.PHONY : archive/segmentDist.o
+.PHONY : segmentDist.o
 
 # target to build an object file
-archive/segmentDist.cpp.o:
-	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o
-.PHONY : archive/segmentDist.cpp.o
+segmentDist.cpp.o:
+	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/segmentDist.cpp.o
+.PHONY : segmentDist.cpp.o
 
-archive/segmentDist.i: archive/segmentDist.cpp.i
+segmentDist.i: segmentDist.cpp.i
 
-.PHONY : archive/segmentDist.i
+.PHONY : segmentDist.i
 
 # target to preprocess a source file
-archive/segmentDist.cpp.i:
-	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.i
-.PHONY : archive/segmentDist.cpp.i
+segmentDist.cpp.i:
+	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/segmentDist.cpp.i
+.PHONY : segmentDist.cpp.i
 
-archive/segmentDist.s: archive/segmentDist.cpp.s
+segmentDist.s: segmentDist.cpp.s
 
-.PHONY : archive/segmentDist.s
+.PHONY : segmentDist.s
 
 # target to generate assembly for a file
-archive/segmentDist.cpp.s:
-	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.s
-.PHONY : archive/segmentDist.cpp.s
+segmentDist.cpp.s:
+	$(MAKE) -f CMakeFiles/segmentDist.dir/build.make CMakeFiles/segmentDist.dir/segmentDist.cpp.s
+.PHONY : segmentDist.cpp.s
 
 # Help Target
 help:
@@ -221,9 +221,9 @@ help:
 	@echo "... install/strip"
 	@echo "... edit_cache"
 	@echo "... tinyxml"
-	@echo "... archive/segmentDist.o"
-	@echo "... archive/segmentDist.i"
-	@echo "... archive/segmentDist.s"
+	@echo "... segmentDist.o"
+	@echo "... segmentDist.i"
+	@echo "... segmentDist.s"
 .PHONY : help
 
 

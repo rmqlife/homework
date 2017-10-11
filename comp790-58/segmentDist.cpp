@@ -16,10 +16,12 @@ Authors:
 
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>     /* srand, rand */
 #include <math.h>
 #include <vector>
 #include "tinyxml.h"
-
+#include <time.h>
+using namespace std;
 /*!
  *	@brief		Simple 2D vector class.
  */
@@ -32,7 +34,6 @@ public:
 	 *	@param		y		The y-value of the vector.
 	 */
 	Vector2( float x=0.f, float y=0.f ): _x(x), _y(y) {}
-748070
 	/*!
 	 *	@brief		Vector2 difference.
 	 *
@@ -66,7 +67,7 @@ public:
 	}
 
 	/*!
-	 *	@brief		Short-hand for dot product.
+	 *	@brief		Short-hand for dot product.std::
 	 *
 	 *	@param		v		The vector with which the inner product is computed.
 	 *	@returns	The inner product (sum of element-wise multiplication)
@@ -109,7 +110,7 @@ public:
 
 	/*!
 	 *	@brief		The y-coordinate of the vector.
-	 */748070
+	 */
 	float	_y;
 };
 
@@ -222,7 +223,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 		} else {
 			// There is overlap - distance is distance between lines
 			Vector2 test = q0 + qDir * t0;
-			return ( test - p0 ).magnitude();748070
+			return ( test - p0 ).magnitude();
 		}
 	} else {
 		/// Test for intersection
@@ -234,7 +235,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 			float altNum = det( pDir, q1 - p0 );
 			if ( ( altNum >= 0.f && num <= 0.f ) ||
 				( altNum <= 0.f && num >= 0.f ) ) {
-				// The two end points of q lie on opposite sides of q
+				// The two end points of q lie onObstacle opposite sides of q
 				return 0.f;
 			}
 		} else {
@@ -275,7 +276,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 		// Now test for projections of endpoints onto segments
 		Vector2 s;
 		float t = qDir * ( p0 - q0 );
-		if ( t >= 0 && t <= qLen ) {748070
+		if ( t >= 0 && t <= qLen ) {
 			s = q0 + t * qDir;
 			dist = ( p0 - s ).magnitude();
 			closestDist = dist < closestDist ? dist : closestDist;
@@ -291,7 +292,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 			s = p0 + t * pDir;
 			dist = ( q0 - s ).magnitude();
 			closestDist = dist < closestDist ? dist : closestDist;
-		}parseObstacle
+		}
 		t = pDir * ( q1 - p0 );
 		if ( t >= 0 && t <= pLen ) {
 			s = p0 + t * pDir;
@@ -310,7 +311,12 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
  *	@param		A pointer to the Obstacle node.
  *	@returns	True if parsing is successful, false otherwise.
  */
-bool parseObstacle( TiXmlElement * node ) {
+ 
+void print_vec2(Vector2 v) {
+    cout<<v._x<<" "<<v._y<<endl;  
+}
+
+bool parseObstacle( TiXmlElement * node, vector<Segment> &obset) {
 	int iVal;
 	// First parse the attributes: bounding box, closed and class
 	//bool isBoundBox = false;
@@ -334,7 +340,7 @@ bool parseObstacle( TiXmlElement * node ) {
 	bool valid = true;
 	
 	for ( TiXmlElement * vert = node->FirstChildElement(); vert; vert = vert->NextSiblingElement() ) {
-		if ( vert->ValueStr() == "Vertex") {748070
+		if ( vert->ValueStr() == "Vertex") {
 			float p_x = 0;
 			float p_y = 0;
 			if ( vert->Attribute( "p_x", &dVal) ) {
@@ -375,18 +381,37 @@ bool parseObstacle( TiXmlElement * node ) {
 	//	std::cout << " which serves as a bounding box";
 	//}
 	std::cout << "\n";
-	return true;
+
+	for (int i=0; i<vertices.size(); ++i){
+	    int j=i+1;
+	    if (i==vertices.size()-1)
+	        if (closed)
+	            j=0;
+	        else
+	            break;
+	    Segment s(vertices[i],vertices[j]);
+	    obset.push_back(s);
+	}
+	return 1;
 }
 
+
+
+
 /*!
- *	@brief		Parse the xml file.
- *
+ *	@brief		Parse the xml file1.333 -5.333
+5.333 -5.333
+5.333 -1.333
+1.333 -1.333
+
  *	A simple example that shows how to use tiny xml to parse the xml file.
  *
  *	@param		xmlName		The name of the xml file to parse.
  *	@returns	True if parsing was successful, false otherwise.
  */
-bool parseXML(const std::string & xmlName ) {
+ 
+ 
+bool parseXML(const std::string & xmlName, vector<Segment> &obset) {
 	std::cout << "Loading from xml: " << xmlName << "\n";
 	TiXmlDocument xml( xmlName );
 	bool loadOkay = xml.LoadFile();
@@ -408,6 +433,7 @@ bool parseXML(const std::string & xmlName ) {
 		std::cerr << "Root element value is not 'Experiment'.\n";
 		return false;
 	}
+    
 
 	// Now parse the child tags of the expermient node
 	TiXmlElement* child;
@@ -418,7 +444,7 @@ bool parseXML(const std::string & xmlName ) {
 			for (grandChild = child->FirstChildElement(); grandChild; grandChild = grandChild->NextSiblingElement())
 			{
 				if (grandChild->ValueStr() == "Obstacle") {
-					parseObstacle(grandChild);
+					parseObstacle(grandChild, obset);
 				}
 				else {
 					// You can ignore unexpected tags or report a problem.  In this case, we'll report a problem
@@ -428,6 +454,7 @@ bool parseXML(const std::string & xmlName ) {
 			}
 		}
 	}
+	
 	return true;
 }
 
@@ -450,25 +477,23 @@ Segment rotate( const Segment & seg, float angle ) {
 }
 
 int main() {
-	std::cout << "Parsing xml file\n";
-	parseXML( "testSceneFile.xml" );
-	std::cout << "\n\n";
-	const float PI = 3.1415975f;
-	const float RAD_TO_DEG = 180.f / PI;
-	const int SAMPLES = 1;
-	const float D_THETA = 2.f * PI / SAMPLES;
-	// Case 1
-	{
-		std::cout << "\tCase 1: seg1 end point (p1) nearest seg2\n";
-		Segment seg1( Vector2( -1.f, -1.1f ), Vector2(1.f, 0.9f ) );
-		Segment seg2( Vector2( 3.f, 0.f ), Vector2( 1.f, 4.f ) );
-		for ( int i = 0; i <= SAMPLES; ++i ) {
-			float angle = i * D_THETA;
-		}
+	cout << "Parsing xml file\n";
+	vector<Segment> obset;
+	parseXML( "testSceneFile.xml",obset);
+	srand(time(NULL));
+	
+	for (int i=0; i<obset.size(); ++i) {
+	    cout<<i<<" obstacle segment:\n";
+	    print_vec2(obset[i]._p0);
+	    print_vec2(obset[i]._p1);
 	}
-
-
-	system("pause");
+	
+	
+	// generate a random point in a area
+	cout<<"test random selection"<<endl;
+	for (int i=0; i<20; ++i){
+	    cout<<(double)rand()/RAND_MAX<<endl;
+	}
 
 	return 0;
 }

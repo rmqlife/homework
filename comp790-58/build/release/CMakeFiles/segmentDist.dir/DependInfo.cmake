@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/biao/work/homework/comp790-58/archive/segmentDist.cpp" "/home/biao/work/homework/comp790-58/build/release/CMakeFiles/segmentDist.dir/archive/segmentDist.cpp.o"
+  "/home/biao/work/homework/comp790-58/segmentDist.cpp" "/home/biao/work/homework/comp790-58/build/release/CMakeFiles/segmentDist.dir/segmentDist.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
