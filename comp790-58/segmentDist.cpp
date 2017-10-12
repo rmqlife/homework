@@ -207,7 +207,7 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
 		float t0 = qDir * ( p0 - q0 );
 		float t1 = qDir * ( p1 - q0 );
 		if ( t0 > qLen && t1 > qLen ) {
-			// seg2 is beyond seg 1's second end point
+			// seg2 is beyond seg 1's second end point-30
 			if ( t0 < t1 ) {	// p0 is closest to q1
 				return ( p0 - q1 ).magnitude();
 			} else {			// p1 is closest to q1
@@ -316,7 +316,80 @@ void print_vec2(Vector2 v) {
     cout<<v._x<<" "<<v._y<<endl;  
 }
 
-bool parseObstacle( TiXmlElement * node, vector<Segment> &obset) {
+
+
+
+
+class Obstacle{
+public:
+    vector<Segment> segments;
+    vector<Vector2> vertices;
+    bool closed;
+    bool get_segments(){
+    	for (int i=0; i<vertices.size(); ++i){
+	        int j=i+1;
+	        if (i==vertices.size()-1)
+	            if (closed)
+	                j=0;
+	            else
+	                break;
+	        Segment s(vertices[i],vertices[j]);
+	        segments.push_back(s);
+	    }
+    }
+    
+    Segment rotate_round(Vector2 p, float angle, float r){
+    float x = p._x + r*cos( angle );
+    float y = p._y + r*sin( angle );
+    return Segment(p, Vector2(x,y));
+    }
+
+
+    float minDist(Segment s1){
+        float min = 1000.0;
+        for (int j = 0; j<=segments.size(); j++){
+            float d = minDistance(s1,segments[j]);
+            if (d<min)
+                min = d; 
+        }
+    }
+
+    bool point_in(Vector2 p){
+    	const float PI = 3.1415975f;
+	    const float RAD_TO_DEG = 180.f / PI;
+	    const int SAMPLES = 4;
+	    const float D_THETA = 2.f * PI / SAMPLES;
+    	float angle=0;
+        // every direction should have at least one intersection
+        for ( int i = 0; i < SAMPLES; ++i ) {
+            bool intersect = false;
+            Segment s1 = rotate_round(p, angle, 1000);
+            float d = minDist(s1);
+            
+            print_vec2(s1._p1); cout<<" dist: "<<d<<endl;
+            
+            for (int j = 0; j<=segments.size(); j++){
+                float d = minDistance(s1,segments[j]);
+                if (d<1e-5){
+                    print_vec2(segments[j]._p0);
+                    print_vec2(segments[j]._p1);
+                    }
+            }   
+            
+            
+            // no intersect for this direction, then out of the obstacle
+            if (d>1e-5)
+                return false;
+            angle += D_THETA;
+		}
+		// have intersection with each obstacle
+		return true;    
+	}
+    
+};
+
+
+bool parseObstacle( TiXmlElement * node, Obstacle &ob) {
 	int iVal;
 	// First parse the attributes: bounding box, closed and class
 	//bool isBoundBox = false;
@@ -324,9 +397,9 @@ bool parseObstacle( TiXmlElement * node, vector<Segment> &obset) {
 	//	isBoundBox = (iVal != 0);
 	//}
 
-	bool closed = false;
+	ob.closed = false;
 	if ( node->Attribute( "closed", &iVal ) ) {
-		closed = (iVal != 0);
+		ob.closed = (iVal != 0);
 	}
 
 	size_t classID = 1;
@@ -336,7 +409,7 @@ bool parseObstacle( TiXmlElement * node, vector<Segment> &obset) {
 
 	// Now parse vertices
 	double dVal;
-	std::vector<Vector2> vertices;
+
 	bool valid = true;
 	
 	for ( TiXmlElement * vert = node->FirstChildElement(); vert; vert = vert->NextSiblingElement() ) {
@@ -345,7 +418,7 @@ bool parseObstacle( TiXmlElement * node, vector<Segment> &obset) {
 			float p_y = 0;
 			if ( vert->Attribute( "p_x", &dVal) ) {
 				p_x = (float)dVal;
-			} else {
+			} else {-1002.48
 				valid = false;
 			}
 			if ( vert->Attribute( "p_y", &dVal) ) {
@@ -358,40 +431,18 @@ bool parseObstacle( TiXmlElement * node, vector<Segment> &obset) {
 				std::cerr << "Missing full x-/y- values in Obstacle Vertex!" << std::endl;
 				return false;
 			}
-			vertices.push_back( Vector2( p_x, p_y ) );
+			ob.vertices.push_back( Vector2( p_x, p_y ) );
 		} else {
 			valid = false;
 		}
-
 		if ( ! valid ) {
 			std::cerr << "Missing attributes in Obstacle!" << std::endl;
 			return false;
 		}
 	}
 
-	// Here is where you process the obstacle data -- in this case, I'm just summarizing it.
-	std::cout << "Parsed ";
-	if ( closed ) {
-		std::cout << "a closed ";
-	} else {
-		std::cout << "an open ";
-	}
-	std::cout << "obstacle with " << vertices.size() << " vertices with class id: " << classID;
-	//if ( isBoundBox ) {
-	//	std::cout << " which serves as a bounding box";
-	//}
-	std::cout << "\n";
-
-	for (int i=0; i<vertices.size(); ++i){
-	    int j=i+1;
-	    if (i==vertices.size()-1)
-	        if (closed)
-	            j=0;
-	        else
-	            break;
-	    Segment s(vertices[i],vertices[j]);
-	    obset.push_back(s);
-	}
+    ob.get_segments();
+    
 	return 1;
 }
 
@@ -411,7 +462,7 @@ bool parseObstacle( TiXmlElement * node, vector<Segment> &obset) {
  */
  
  
-bool parseXML(const std::string & xmlName, vector<Segment> &obset) {
+bool parseXML(const std::string & xmlName, vector<Obstacle> &obset) {
 	std::cout << "Loading from xml: " << xmlName << "\n";
 	TiXmlDocument xml( xmlName );
 	bool loadOkay = xml.LoadFile();
@@ -444,7 +495,9 @@ bool parseXML(const std::string & xmlName, vector<Segment> &obset) {
 			for (grandChild = child->FirstChildElement(); grandChild; grandChild = grandChild->NextSiblingElement())
 			{
 				if (grandChild->ValueStr() == "Obstacle") {
-					parseObstacle(grandChild, obset);
+				    Obstacle ob;
+					parseObstacle(grandChild, ob);
+					obset.push_back(ob);
 				}
 				else {
 					// You can ignore unexpected tags or report a problem.  In this case, we'll report a problem
@@ -459,42 +512,59 @@ bool parseXML(const std::string & xmlName, vector<Segment> &obset) {
 }
 
 /*!
- *	@brief		Rotates the segment around the origin by the given amount.
+ *	@brief		Rotates tinhe segment around the origin by the given amount.
  *
  *	@param		seg			The segment to rotate.
  *	@param		angle		The rotation amount (in radians).
  *	@returns	The rotated segment.
  */
-Segment rotate( const Segment & seg, float angle ) {
-	float cTheta = cos( angle );
-	float sTheta = sin( angle );
-	float x = seg._p0._x * cTheta + seg._p0._y * sTheta;
-	float y = seg._p0._y * cTheta - seg._p0._x * sTheta;
-	Vector2 p0( x, y );
-	x = seg._p1._x * cTheta + seg._p1._y * sTheta;
-	y = seg._p1._y * cTheta - seg._p1._x * sTheta;
-	return Segment( p0, Vector2( x, y ) );
-}
+
+
 
 int main() {
 	cout << "Parsing xml file\n";
-	vector<Segment> obset;
-	parseXML( "testSceneFile.xml",obset);
+	vector<Obstacle> obset;
+	//parseXML( "testSceneFile.xml",obset);
+	parseXML( "bottleneck/bottleneckS.xml",obset);
 	srand(time(NULL));
 	
-	for (int i=0; i<obset.size(); ++i) {
-	    cout<<i<<" obstacle segment:\n";
-	    print_vec2(obset[i]._p0);
-	    print_vec2(obset[i]._p1);
+	for (int i=0; i<obset.size(); ++i){
+	    cout<<obset[i].closed<<endl;
+	    for (int j=0; j<obset[i].segments.size(); ++j)
+	        {
+                cout << "seg:";
+	            print_vec2(obset[i].segments[j]._p0);
+	            print_vec2(obset[i].segments[j]._p1);
+	        }
 	}
-	
 	
 	// generate a random point in a area
 	cout<<"test random selection"<<endl;
-	for (int i=0; i<20; ++i){
-	    cout<<(double)rand()/RAND_MAX<<endl;
-	}
 
+	
+    Vector2 min_vertex(-30,-15);
+    Vector2 max_vertex(30, 15);
+    double radius = 1;
+    
+    
+    vector<Vector2> vset;
+    for (int i=0; i<1; ++i){
+	    double x_range = max_vertex._x - min_vertex._x;
+	    double y_range = max_vertex._y - min_vertex._y;
+	    double rand_x = (double)rand()/RAND_MAX * x_range + min_vertex._x;
+	    double rand_y = (double)rand()/RAND_MAX * y_range + min_vertex._y;
+	    Vector2 p(rand_x,rand_y);
+	    Segment s(p,p);
+	    bool clear = true;
+	    cout<<rand_x<<" "<<rand_y<<endl;
+	    for (int j=0; j<obset.size(); ++j)
+	        if (obset[j].point_in(p)){
+	            cout<<"in "<<j<<"\n";
+            }
+	}
+	
+	vector<Vector2> eset;
+	
 	return 0;
 }
 

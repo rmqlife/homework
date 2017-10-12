@@ -1,4 +1,2 @@
 #!/bin/bash
-make
-cd ./Exe
-./segmentDist
+make && cd ./Exe && ./segmentDist
