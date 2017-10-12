@@ -1,0 +1,1 @@
+/usr/bin/c++   -O3 -DNDEBUG   CMakeFiles/segmentDist.dir/segmentDist.cpp.o  -o Exe/segmentDist  -L/home/rmqlife/work/homework/comp790-58/lib -rdynamic lib/libtinyxml.a -Wl,-rpath,/home/rmqlife/work/homework/comp790-58/lib 

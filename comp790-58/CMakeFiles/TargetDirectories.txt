@@ -1,0 +1,14 @@
+/home/rmqlife/work/homework/comp790-58/CMakeFiles/rebuild_cache.dir
+/home/rmqlife/work/homework/comp790-58/CMakeFiles/install.dir
+/home/rmqlife/work/homework/comp790-58/CMakeFiles/list_install_components.dir
+/home/rmqlife/work/homework/comp790-58/CMakeFiles/segmentDist.dir
+/home/rmqlife/work/homework/comp790-58/CMakeFiles/install/local.dir
+/home/rmqlife/work/homework/comp790-58/CMakeFiles/install/strip.dir
+/home/rmqlife/work/homework/comp790-58/CMakeFiles/edit_cache.dir
+/home/rmqlife/work/homework/comp790-58/tinyxml/CMakeFiles/install.dir
+/home/rmqlife/work/homework/comp790-58/tinyxml/CMakeFiles/list_install_components.dir
+/home/rmqlife/work/homework/comp790-58/tinyxml/CMakeFiles/rebuild_cache.dir
+/home/rmqlife/work/homework/comp790-58/tinyxml/CMakeFiles/tinyxml.dir
+/home/rmqlife/work/homework/comp790-58/tinyxml/CMakeFiles/install/strip.dir
+/home/rmqlife/work/homework/comp790-58/tinyxml/CMakeFiles/install/local.dir
+/home/rmqlife/work/homework/comp790-58/tinyxml/CMakeFiles/edit_cache.dir

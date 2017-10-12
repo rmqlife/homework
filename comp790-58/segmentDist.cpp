@@ -22,6 +22,9 @@ Authors:
 #include "tinyxml.h"
 #include <time.h>
 using namespace std;
+
+#define BIG 1e10
+#define SMALL 1e-10
 /*!
  *	@brief		Simple 2D vector class.
  */
@@ -312,9 +315,6 @@ float minDistance( const Segment & seg1, const Segment & seg2 ) {
  *	@returns	True if parsing is successful, false otherwise.
  */
  
-void print_vec2(Vector2 v) {
-    cout<<v._x<<" "<<v._y<<endl;  
-}
 
 
 
@@ -343,42 +343,49 @@ public:
     float y = p._y + r*sin( angle );
     return Segment(p, Vector2(x,y));
     }
+    
+    void print_vec2(Vector2 v) {
+        cout<<'('<<v._x<<", "<<v._y<<')';  
+    }
 
-
+    void print_segment(Segment s) {
+        cout<<'[';
+        print_vec2(s._p0);
+        print_vec2(s._p1);
+        cout<<']';
+    }
     float minDist(Segment s1){
-        float min = 1000.0;
-        for (int j = 0; j<=segments.size(); j++){
+        float min = BIG;
+        //print_segment(s1);
+        //cout<<" 's distance with:\n";
+        for (int j = 0; j<segments.size(); j++){
             float d = minDistance(s1,segments[j]);
+            //print_segment(segments[j]); cout<<":"<<d<<endl;
             if (d<min)
                 min = d; 
         }
+        return min;
     }
+    
 
+    
+        
     bool point_in(Vector2 p){
     	const float PI = 3.1415975f;
 	    const float RAD_TO_DEG = 180.f / PI;
 	    const int SAMPLES = 4;
 	    const float D_THETA = 2.f * PI / SAMPLES;
     	float angle=0;
+    	
         // every direction should have at least one intersection
         for ( int i = 0; i < SAMPLES; ++i ) {
             bool intersect = false;
             Segment s1 = rotate_round(p, angle, 1000);
             float d = minDist(s1);
             
-            print_vec2(s1._p1); cout<<" dist: "<<d<<endl;
-            
-            for (int j = 0; j<=segments.size(); j++){
-                float d = minDistance(s1,segments[j]);
-                if (d<1e-5){
-                    print_vec2(segments[j]._p0);
-                    print_vec2(segments[j]._p1);
-                    }
-            }   
-            
             
             // no intersect for this direction, then out of the obstacle
-            if (d>1e-5)
+            if (d>SMALL)
                 return false;
             angle += D_THETA;
 		}
@@ -386,6 +393,10 @@ public:
 		return true;    
 	}
     
+    bool point_near(Vector2 p, float radius){
+        Segment s(p,p);
+        return minDist(s)<radius;
+    }
 };
 
 
@@ -418,7 +429,7 @@ bool parseObstacle( TiXmlElement * node, Obstacle &ob) {
 			float p_y = 0;
 			if ( vert->Attribute( "p_x", &dVal) ) {
 				p_x = (float)dVal;
-			} else {-1002.48
+			} else {
 				valid = false;
 			}
 			if ( vert->Attribute( "p_y", &dVal) ) {
@@ -440,9 +451,7 @@ bool parseObstacle( TiXmlElement * node, Obstacle &ob) {
 			return false;
 		}
 	}
-
     ob.get_segments();
-    
 	return 1;
 }
 
@@ -521,6 +530,74 @@ bool parseXML(const std::string & xmlName, vector<Obstacle> &obset) {
 
 
 
+Vector2 get_v(const Vector2 &min_vertex, const Vector2 &max_vertex, vector<Obstacle> &obset, float radius){
+    while(true){
+        double x_range = max_vertex._x - min_vertex._x;
+	    double y_range = max_vertex._y - min_vertex._y;
+	    double rand_x = (double)rand()/RAND_MAX * x_range + min_vertex._x;
+	    double rand_y = (double)rand()/RAND_MAX * y_range + min_vertex._y;
+	    Vector2 p(rand_x,rand_y);
+	    bool clear = true;
+
+	    for (int j=0; j<obset.size(); ++j)
+	        if (obset[j].point_in(p)){
+	            clear=false;
+	            break;
+	        }
+	    
+	    for (int j=0; j<obset.size(); ++j)
+	        if (obset[j].point_near(p, radius)){
+	            clear=false;
+	            break;
+	        }
+	    
+
+	    if (clear){
+   	        return p;
+        }
+    }
+    return Vector2(0,0);
+}
+
+
+
+float distance_vector2(Vector2 p, Vector2 p1)
+{
+    return minDistance(Segment(p,p), Segment(p1,p1));
+}
+
+void k_nearest(Vector2 p, vector<Vector2> &vset, int k, vector<int> &ret){
+
+    vector<bool> fag(vset.size());
+    vector<float> dist(vset.size());
+    for (int i=0; i<fag.size(); i++){
+        fag[i]=0;
+    }
+    
+    for (int i=0; i<vset.size(); i++){
+        dist[i] = distance_vector2(vset[i],p);
+    }
+    
+
+    int min_i = 0;
+    
+    for (int j=0; j<k; j++){
+        float min = BIG;
+        
+        for (int i=0; i<vset.size(); i++){
+            if (dist[i]>SMALL && dist[i]<min && fag[i]==0) {// a valid candidate
+                min = dist[i];
+                min_i = i;
+            }
+        }
+        fag[min_i] = 1;
+        ret.push_back(min_i);
+    }
+    
+    return;
+}
+
+
 int main() {
 	cout << "Parsing xml file\n";
 	vector<Obstacle> obset;
@@ -528,42 +605,37 @@ int main() {
 	parseXML( "bottleneck/bottleneckS.xml",obset);
 	srand(time(NULL));
 	
-	for (int i=0; i<obset.size(); ++i){
-	    cout<<obset[i].closed<<endl;
-	    for (int j=0; j<obset[i].segments.size(); ++j)
-	        {
-                cout << "seg:";
-	            print_vec2(obset[i].segments[j]._p0);
-	            print_vec2(obset[i].segments[j]._p1);
-	        }
-	}
-	
-	// generate a random point in a area
-	cout<<"test random selection"<<endl;
 
+	// generate a random point in a area
 	
-    Vector2 min_vertex(-30,-15);
-    Vector2 max_vertex(30, 15);
-    double radius = 1;
-    
+    Vector2 min_v(-30,-15);
+    Vector2 max_v(30, 15);
+    const double radius = 3;
+    const int k_value = 3;
     
     vector<Vector2> vset;
-    for (int i=0; i<1; ++i){
-	    double x_range = max_vertex._x - min_vertex._x;
-	    double y_range = max_vertex._y - min_vertex._y;
-	    double rand_x = (double)rand()/RAND_MAX * x_range + min_vertex._x;
-	    double rand_y = (double)rand()/RAND_MAX * y_range + min_vertex._y;
-	    Vector2 p(rand_x,rand_y);
-	    Segment s(p,p);
-	    bool clear = true;
-	    cout<<rand_x<<" "<<rand_y<<endl;
-	    for (int j=0; j<obset.size(); ++j)
-	        if (obset[j].point_in(p)){
-	            cout<<"in "<<j<<"\n";
-            }
+    Obstacle util;
+    
+    for (int i=0; i<20; ++i){
+	    Vector2 v = get_v(min_v,max_v,obset,radius);
+	    vset.push_back(v);
 	}
 	
+	cout<<"vset size: "<<vset.size()<<endl;
+	
+	
 	vector<Vector2> eset;
+	
+	bool ccmap[vset.size()][vset.size()];
+	for (int i=0; i<vset.size(); i++){
+	    vector<int> k_list;
+	    k_nearest(vset[i], vset, k_value, k_list);
+	    
+	    
+	    
+	    
+	    cout<<endl;
+	}
 	
 	return 0;
 }
