@@ -623,19 +623,40 @@ int main() {
 	
 	cout<<"vset size: "<<vset.size()<<endl;
 	
+	for (int i=0; i<vset.size(); i++){
+	    util.print_vec2(vset[i]);
+	    cout<<endl;
+	}
 	
 	vector<Vector2> eset;
 	
 	bool ccmap[vset.size()][vset.size()];
+	for (int i=0; i<vset.size(); i++)
+	    for (int j=0; j<vset.size(); j++)
+	        ccmap[i][j]=0;
+    	
+	
 	for (int i=0; i<vset.size(); i++){
 	    vector<int> k_list;
 	    k_nearest(vset[i], vset, k_value, k_list);
 	    
-	    
-	    
-	    
-	    cout<<endl;
+	    for (int j=0; j<k_list.size(); j++){
+	        if (ccmap[i][k_list[j]]==0 && ccmap[k_list[j]][i]==0){
+	            ccmap[i][k_list[j]] = 1;
+	            ccmap[k_list[j]][i] = 1;
+	            Vector2 e(i,k_list[j]);
+	            eset.push_back(e);
+	        }
+	    }
 	}
+	
+	cout<<"eset size: "<<eset.size()<<endl;
+	
+	for (int i=0; i<eset.size(); i++){
+        util.print_vec2(eset[i]);
+        cout<<endl;
+    }
+	
 	
 	return 0;
 }
