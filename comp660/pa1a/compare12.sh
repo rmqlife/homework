@@ -1,3 +1,4 @@
+#!/bin/bash
 array=(10 20 50 100 200 500 )
 
 echo "method 1"
