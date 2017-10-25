@@ -78,9 +78,10 @@ int main(int argc, char *argv[]){
 			        b[j].acc = set_vec2(0,0);
 			     	    
 	            /* compute acc */
-	            #pragma omp parallel for num_threads(thread_num)
-	            for (int j=0;j<body_num;j++){
-		            for (int k=0;k<body_num;k++){
+	            int j;
+	            #pragma omp parallel for num_threads(thread_num) private(j)
+	            for (j=0;j<body_num;j++){
+		            for (int k=j+1;k<body_num;k++){
 			            // not sure the order!!!!
 			            vec2 r = add_vec2(b[k].pos, minus_vec2(b[j].pos));
 			            //print_vec2(r);
@@ -90,7 +91,7 @@ int main(int argc, char *argv[]){
 			            double temp = G*b[j].m*b[k].m/r_length/r_length/r_length;				
 			            b[j].acc = add_vec2(b[j].acc, times_vec2(temp/b[j].m, r));
 			            // newton's third law
-			            //b[k].acc = add_vec2(b[k].acc, times_vec2(temp/b[k].m, minus_vec2(r)));
+			            b[k].acc = add_vec2(b[k].acc, times_vec2(temp/b[k].m, minus_vec2(r)));
 		            }		
                 }
                 
