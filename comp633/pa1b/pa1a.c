@@ -5,11 +5,6 @@
 #include <omp.h>
 #include "util.h"
 
-
-
-
-
-
 int main(int argc, char *argv[]){
 	if(argc<=4) {
         printf("Please input type, 0 for generate bodies, 1 for load bodies");

@@ -4,17 +4,18 @@
 #include <math.h>
 #include <omp.h>
 #include "util.h"
+
 int main(int argc, char *argv[]){
 	if(argc<=4) {
         printf("Please input type, 0 for generate bodies, 1 for load bodies");
         exit(1);
     }
+    
+
     int body_num = atoi(argv[1]);
     int K_times = atoi(argv[2]);
     int show_fag = atoi(argv[3]);
     int type = atoi(argv[4]);
-    int thread_num = atoi(argv[5]);
-    
     body b[body_num];
     
     //default case generate bodies and save
@@ -39,11 +40,12 @@ int main(int argc, char *argv[]){
         }
         fread(&b, sizeof(body)*body_num, 1, fin);
     }
+    
+    //generate without save
     if (type==2)
         for (int j=0;j<body_num;j++){
 	        b[j] = set_body(rand2(),rand2(),rand2(),rand2(),rand2());
     }
-    
 
     
 	double DeltaT = 1e-03;
@@ -78,9 +80,8 @@ int main(int argc, char *argv[]){
 			        b[j].acc = set_vec2(0,0);
 			     	    
 	            /* compute acc */
-	            #pragma omp parallel for num_threads(thread_num)
 	            for (int j=0;j<body_num;j++){
-		            for (int k=0;k<body_num;k++){
+		            for (int k=j+1;k<body_num;k++){
 			            // not sure the order!!!!
 			            vec2 r = add_vec2(b[k].pos, minus_vec2(b[j].pos));
 			            //print_vec2(r);
@@ -90,7 +91,7 @@ int main(int argc, char *argv[]){
 			            double temp = G*b[j].m*b[k].m/r_length/r_length/r_length;				
 			            b[j].acc = add_vec2(b[j].acc, times_vec2(temp/b[j].m, r));
 			            // newton's third law
-			            //b[k].acc = add_vec2(b[k].acc, times_vec2(temp/b[k].m, minus_vec2(r)));
+			            b[k].acc = add_vec2(b[k].acc, times_vec2(temp/b[k].m, minus_vec2(r)));
 		            }		
                 }
                 
@@ -106,7 +107,7 @@ int main(int argc, char *argv[]){
     }
 	double time_spent = (double)(end - begin);
 	double performance =(double) body_num*body_num*K_times/1e06/time_spent;
-    printf("%i %f %f\n", body_num, time_spent, performance);
+	printf("%i %f %f\n", body_num, time_spent, performance);
 
 	momentum = set_vec2(0,0);
 
