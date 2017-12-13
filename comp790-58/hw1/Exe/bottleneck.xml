@@ -5,5 +5,5 @@
 	behavior="bottleneck/bottleneckB.xml" 
 	view="bottleneck/bottleneckV.xml" 
 	model="orca"
-	dumpPath="images/bottleneck"
+	dumpPath="/home/rmqlife/work/homework/comp790-58/hw1/Exe/bottleneck/bottleneck"
 />

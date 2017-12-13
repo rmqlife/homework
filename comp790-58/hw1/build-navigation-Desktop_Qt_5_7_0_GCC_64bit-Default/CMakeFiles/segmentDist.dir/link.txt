@@ -1,0 +1,1 @@
+/usr/bin/g++      CMakeFiles/segmentDist.dir/segmentDist.cpp.o  -o /home/rmqlife/work/homework/comp790-58/hw1/navigation/Exe/segmentDist  -L/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/lib -rdynamic lib/libtinyxml.a -Wl,-rpath,/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/lib 

@@ -1,0 +1,14 @@
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/CMakeFiles/rebuild_cache.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/CMakeFiles/install.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/CMakeFiles/list_install_components.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/CMakeFiles/segmentDist.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/CMakeFiles/install/local.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/CMakeFiles/install/strip.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/CMakeFiles/edit_cache.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/tinyxml/CMakeFiles/install.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/tinyxml/CMakeFiles/list_install_components.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/tinyxml/CMakeFiles/rebuild_cache.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/tinyxml/CMakeFiles/tinyxml.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/tinyxml/CMakeFiles/install/strip.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/tinyxml/CMakeFiles/install/local.dir
+/home/rmqlife/work/homework/comp790-58/hw1/build-navigation-Desktop_Qt_5_7_0_GCC_64bit-Default/tinyxml/CMakeFiles/edit_cache.dir

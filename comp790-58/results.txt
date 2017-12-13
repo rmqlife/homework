@@ -1,0 +1,3 @@
+Number of Steps: 70	 Reward: 1248.4049
+Number of Steps: 115	 Reward: 3346.8950
+Number of Steps: 999	 Reward: 45765.5757

@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rmqlife/work/homework/comp790-58/hw1/navigation/segmentDist.cpp
+iostream
+-
+fstream
+-
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+vector
+-
+tinyxml.h
+/home/rmqlife/work/homework/comp790-58/hw1/navigation/tinyxml.h
+time.h
+-
+
